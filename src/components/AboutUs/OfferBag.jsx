@@ -1,29 +1,26 @@
-import { Button } from "@heroui/react";
-import { ArrowRight } from "lucide-react";
 import bag from '../../assets/image/bag.png';
+import { GoArrowUpRight } from "react-icons/go";
 
 const OfferBag = () => {
     return (
-        <div className="w-[1540px] mx-auto">
-            {/* Featured Bag Section */}
-            <div className="grid grid-cols-2 gap-8 items-center p-8 rounded-xl">
-                {/* Photo Card on the Left */}
-                {/* Photo Card on the Left */}
-                <div className="h-[719px] w-[770px] bg-[#EBEBEB] rounded-tl-[36px] rounded-bl-[36px] flex justify-center items-center">
+        <div className="relative max-w-full w-[1520px] mx-auto rounded-[20px] p-10 flex flex-wrap items-center gap-10 overflow-hidden">
+            {/* Featured Section */}
+            <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 items-center p-4 md:p-8 rounded-xl w-full">
+                {/* Image */}
+                <div className="h-auto min-h-[300px] sm:min-h-[500px] md:h-[719px] w-full bg-[#EBEBEB] rounded-tl-[36px] rounded-bl-[36px] flex justify-center items-center">
                     <img
                         src={bag}
                         alt="Luxury Bag"
-                        className="w-[406px] h-[404px] object-cover rounded-xl"
+                        className="w-[200px] sm:w-[300px] md:w-[406px] h-auto object-cover rounded-xl max-w-full"
                     />
                 </div>
 
 
-                {/* Second Card with specific background color on the Right */}
-                {/* Second Card with specific background color on the Right */}
-                <div className="bg-orange-200 p-6 rounded-tr-[36px] rounded-br-[36px] w-[770px] h-[719px] flex justify-center items-center">
-                    <div className="w-[514px] h-[463px] bg-white p-6 rounded-xl text-center shadow-md flex flex-col justify-center items-center">
-                        {/* Title and Description Section */}
-                        <div className="w-[333px] h-[134px] flex flex-col justify-center items-center mt-8">
+                {/* Content */}
+                <div className="w-full h-[719px] bg-orange-200 p-6 rounded-tr-[36px] rounded-br-[36px] flex justify-center items-center">
+                    <div className="w-full max-w-[514px] h-full max-h-[463px] bg-white p-6 rounded-xl text-center shadow-md flex flex-col justify-center items-center">
+                        {/* Title and Description */}
+                        <div className="w-full max-w-[333px] flex flex-col justify-center items-center mt-4 md:mt-8">
                             <h2 className="text-xl font-semibold">Exclusive bag offers awaits</h2>
                             <p className="text-gray-500 mt-2 text-center">
                                 Lorem ipsum dolor sit amet consectetur. Phasellus ornare vitae in urna suspendisse elit arcu tellus.
@@ -31,15 +28,85 @@ const OfferBag = () => {
                         </div>
 
                         {/* Button */}
-                        <Button className="bg-black text-white flex items-center justify-center mt-4 gap-2">
-                            See Collection <ArrowRight size={16} />
-                        </Button>
+                        <div className="text-center mt-8 flex justify-start ">
+                            <button className="bg-black px-[32px] py-[10px] text-[14px] text-white font-semibold rounded-[36px] md:px-[48px] md:py-[14px] md:text-[16px]">
+                                See Collection
+                            </button>
+                            <button className="bg-black p-[14px] text-white rounded-full md:p-[20px]">
+                                <GoArrowUpRight />
+                            </button>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     );
 };
 
 export default OfferBag;
+
+/* import { useEffect, useState } from "react";
+import axios from "axios";
+import { GoArrowUpRight } from "react-icons/go";
+
+const OfferBag = () => {
+    const [offerData, setOfferData] = useState(null);
+
+    useEffect(() => {
+        axios
+            .get("https://your-api-endpoint.com/offer") // Replace with your actual API endpoint
+            .then((response) => {
+                setOfferData(response.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching offer data:", error);
+            });
+    }, []);
+
+    return (
+        <div className="relative max-w-full w-[1520px] mx-auto rounded-[20px] p-10 flex flex-wrap items-center gap-10 overflow-hidden">
+         
+            <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-8 items-center p-4 md:p-8 rounded-xl w-full">
+              
+                <div className="h-auto min-h-[300px] sm:min-h-[500px] md:h-[719px] w-full bg-[#EBEBEB] rounded-tl-[36px] rounded-bl-[36px] flex justify-center items-center">
+                    {offerData ? (
+                        <img
+                            src={offerData.image}
+                            alt="Luxury Bag"
+                            className="w-[200px] sm:w-[300px] md:w-[406px] h-auto object-cover rounded-xl max-w-full"
+                        />
+                    ) : (
+                        <p>Loading...</p>
+                    )}
+                </div>
+
+              
+                <div className="w-full h-[719px] bg-orange-200 p-6 rounded-tr-[36px] rounded-br-[36px] flex justify-center items-center">
+                    <div className="w-full max-w-[514px] h-full max-h-[463px] bg-white p-6 rounded-xl text-center shadow-md flex flex-col justify-center items-center">
+                       
+                        <div className="w-full max-w-[333px] flex flex-col justify-center items-center mt-4 md:mt-8">
+                            <h2 className="text-xl font-semibold">
+                                {offerData ? offerData.title : "Loading..."}
+                            </h2>
+                            <p className="text-gray-500 mt-2 text-center">
+                                {offerData ? offerData.description : ""}
+                            </p>
+                        </div>
+
+                     
+                        <div className="text-center mt-8 flex justify-start">
+                            <button className="bg-black px-[32px] py-[10px] text-[14px] text-white font-semibold rounded-[36px] md:px-[48px] md:py-[14px] md:text-[16px]">
+                                See Collection
+                            </button>
+                            <button className="bg-black p-[14px] text-white rounded-full md:p-[20px]">
+                                <GoArrowUpRight />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default OfferBag; */
