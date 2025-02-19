@@ -8,6 +8,7 @@ import bag2 from "../../assets/header/bags/2.png";
 import bag3 from "../../assets/header/bags/3.png";
 import bag4 from "../../assets/header/bags/4.png";
 import hoverBag1 from "../../assets/header/bags/hover-1.png";
+import { Link } from "react-router-dom";
 
 const BAG_DATA = [
   {
@@ -75,9 +76,11 @@ const Header = () => {
           verified and curated collections.
         </p>
         <div className="mt-8 flex justify-center ">
-          <button className="bg-black px-[48px] py-[14px] text-[16px] text-white font-semibold rounded-[36px]">
-            Start Shopping
-          </button>
+          <Link to="/shop">
+            <button className="bg-black px-[48px] py-[14px] text-[16px] text-white font-semibold rounded-[36px]">
+              Start Shopping
+            </button>
+          </Link>
           <button className="bg-black p-[20px] text-white rounded-full">
             <GoArrowUpRight />
           </button>
@@ -100,12 +103,33 @@ const Header = () => {
           }) => (
             <div key={id}>
               <div
-                className="lg:w-[365px] lg:h-[321px] bg-[linear-gradient(89.74deg,_#FFF0DC_0.26%,_#F8DBB2_61.48%,_#FFEED8_99.8%)] absolute"
-                style={{ top: `${top + 243}px`, left: `${left - 75}px` }}
+                className="absolute bg-[linear-gradient(89.74deg,_#FFF0DC_0.26%,_#F8DBB2_61.48%,_#FFEED8_99.8%)]
+               lg:w-[365px] lg:h-[321px] 
+               md:w-[250px] md:h-[221px] 
+               w-[200px] h-[121px]"
+                style={{
+                  top:
+                    window.innerWidth < 640
+                      ? `${top + 400}px`
+                      : `${top + 243}px`, // Shift up on small screens
+                  left:
+                    window.innerWidth < 640
+                      ? `${left - 140}px`
+                      : `${left - 75}px`, // Shift left on small screens
+                }}
               />
               <div
-                className="lg:w-[365px] lg:h-[79px] bg-[#F8DAB0] absolute rounded-[50%]"
-                style={{ top: `${top + 208}px`, left: `${left - 75}px` }}
+                className="lg:w-[365px] lg:h-[79px] w-[200px] h-[50px] bg-[#F8DAB0] absolute rounded-[50%]"
+                style={{
+                  top:
+                    window.innerWidth < 640
+                      ? `${top + 380}px`
+                      : `${top + 210}px`, // Shift up on small screens
+                  left:
+                    window.innerWidth < 640
+                      ? `${left - 140}px`
+                      : `${left - 75}px`, // Shift left on small screens
+                }}
               />
 
               <div
@@ -115,12 +139,25 @@ const Header = () => {
                 <img
                   src={image}
                   alt="Bag"
-                  className={`lg:w-[245px] lg:h-[284px] absolute object-cover ${
-                    flip ? "transform scale-x-[-1]" : ""
-                  }`}
+                  className={`absolute object-cover transition-transform duration-300 
+                    lg:w-[245px] lg:h-[284px] 
+                    md:w-[200px] md:h-[234px] 
+                    w-[150px] h-[184px] 
+                    ${flip ? "scale-x-[-1]" : ""}`}
                   style={{
-                    top: `${id === 4 ? top + 20 : top}px`,
-                    left: `${id === 4 ? left - 20 : left}px`,
+                    top:
+                      window.innerWidth < 640
+                        ? `${top + 230}px` // Adjust position on small screens
+                        : window.innerWidth < 1024
+                        ? `${top - 20}px` // Adjust for medium screens
+                        : `${id === 4 ? top + 20 : top}px`, // Default for large screens
+
+                    left:
+                      window.innerWidth < 640
+                        ? `${left - 120}px`
+                        : window.innerWidth < 1024
+                        ? `${left - 15}px`
+                        : `${id === 4 ? left - 20 : left}px`,
                   }}
                 />
                 {hoveredBag === id && (

@@ -6,7 +6,6 @@ const Selling = () => {
   return (
     <div className='bg-white'>
       <SellingMade />
-
       <NewsletterSection />
     </div>
   );
