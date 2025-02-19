@@ -6,8 +6,8 @@ import {
   NavbarMenu,
 } from "@heroui/react";
 
-import { NavLink } from "react-router-dom";
-import { useContext, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../hooks/AuthContextProvider";
 import { motion } from "framer-motion";
 import UserPopover from "@/components/UserPopover";
@@ -15,10 +15,26 @@ import logo from "../assets/header/logo/logo.png";
 import avatar from "../assets/header/end/avatar.png";
 import { CiHeart } from "react-icons/ci";
 import { IoCartOutline } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchWishlist } from "../redux/features/wishlistSlice";
+import { Button } from "@/components/ui/button";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  //redux
+  const dispatch = useDispatch();
+  const wishlist = useSelector((state) => state?.wishlist?.items);
+
+  console.log(wishlist, "wishlist in navbar line 28");
   const { user, logout } = useContext(AuthContext);
+
+  //dispatch
+  useEffect(() => {
+    dispatch(fetchWishlist(user?.userId));
+  }, [dispatch, user?.userId]);
+
+  console.log(user, "user in navbar");
 
   return (
     <Navbar
@@ -58,8 +74,10 @@ export default function Header() {
             animate="visible"
             variants={menuVariant}
           >
-            <motion.div variants={childVariant} className="w-[176px] h-[112px]">
-              <img src={logo} alt="" />
+            <motion.div variants={childVariant} className="w-[200px]">
+              <Link to="/">
+                <img src={logo} alt="" />
+              </Link>
             </motion.div>
           </motion.div>
         </div>
@@ -140,25 +158,55 @@ export default function Header() {
 
       <NavbarContent justify="end">
         {user ? (
-          <UserPopover user={user} logout={logout} />
+          <div className="flex items-center gap-4">
+            <Link
+              to="/closet"
+              className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center relative"
+            >
+              <CiHeart className="w-[24px] h-[24px] text-black" />
+              {wishlist.length ? (
+                <div className="w-6 h-6 p-1 font-semibold bg-red-600 text-white rounded-full absolute -top-2 -right-3 flex items-center justify-center">
+                  {wishlist.length}
+                </div>
+              ) : null}
+            </Link>
+            <Link
+              to="/shopping-cart"
+              className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center"
+            >
+              <IoCartOutline className="w-[24px] h-[24px]  text-black" />
+            </Link>
+
+            <UserPopover user={user} logout={logout} />
+          </div>
         ) : (
           <div className="flex items-center gap-4">
-            <div className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center">
-              <CiHeart className="w-[24px] h-[24px]  text-black" />
-            </div>
-            <div className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center">
+            <Link
+              to="/closet"
+              className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center relative"
+            >
+              <CiHeart className="w-[24px] h-[24px] text-black" />
+              {wishlist.length ? (
+                <div className="w-6 h-6 p-1 font-semibold bg-red-600 text-white rounded-full absolute -top-2 -right-3 flex items-center justify-center">
+                  {wishlist.length}
+                </div>
+              ) : null}
+            </Link>
+            <Link
+              to="/shopping-cart"
+              className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center"
+            >
               <IoCartOutline className="w-[24px] h-[24px]  text-black" />
-            </div>
+            </Link>
             <div className="flex items-center gap-2 ">
-              <img
-                src={avatar}
-                alt=""
-                className="w-[40px] h-[40px] rounded-full object-cover"
-              />
-              <div className="text-black text-xs">
-                <h1>Hi,</h1>
-                <p>Dana Keeling!</p>
-              </div>
+              <Link to="/login">
+                <Button
+                  className="bg-black hover:bg-white hover:text-black"
+                  variant="outline"
+                >
+                  Login
+                </Button>
+              </Link>
             </div>
           </div>
         )}
@@ -167,19 +215,6 @@ export default function Header() {
   );
 }
 
-// const logoVariant = {
-//   hidden: {
-//     y: -100,
-//   },
-//   visible: {
-//     y: 0,
-//     transition: {
-//       duration: 1,
-//       type: "spring",
-//       stiffness: 80,
-//     },
-//   },
-// };
 const menuVariant = {
   hidden: {
     opacity: 0,
